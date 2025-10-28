@@ -2,12 +2,19 @@ import os
 import numpy as np
 import cv2
 import math
+import kagglehub
 
 from matplotlib import pyplot as plt
 
-img = cv2.imread("C:/Users/Administrator/Desktop/Git/license-plate-reader/data/detector_dataset/images/Cars6.png")
+dataset_path = kagglehub.dataset_download("andrewmvd/car-plate-detection")
+img_path = os.path.join(dataset_path, "images", "Cars0.png")
+
+if not os.path.exists(img_path):
+    raise FileNotFoundError(f"Image not found at: {img_path}")
+
+img = cv2.imread(img_path)
 if img is None:
-    raise RuntimeError("File could not be read. Check the path")
+    raise RuntimeError(f"Could not read image: {img_path}")
 
 def detect_candidates(img):
 
@@ -197,37 +204,3 @@ cv2.imshow("candidates", vis); cv2.waitKey(0); cv2.destroyAllWindows()
 
 
     
-
-    
-
-
-        
-
-
-
-
-
-
-
-
-# Bounding rectangles, Filtering by aspect ratio + size
-
-
-
-
-
-
-"""
-2. select_final(boxes, cfg) -> list[Box]
-
-Function will keep the most effective boxes/candidates by area descending, iterate in order
-stop once a certain amonut of boxes are there, return the kept boxes.
-
-
-3. draw_boxes(image, boxes) -> image_with_boxeswhat a
-
-Function will create a list of bounding boxes, loop through boxes, draw a rectangle, use visible color, and then return the modified image.
-"""
-
-
-
