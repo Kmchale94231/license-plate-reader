@@ -1,8 +1,10 @@
 import os
 import numpy as np
 import cv2
-import math
 import kagglehub
+import pytesseract as pyt
+
+pyt.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
 
 from matplotlib import pyplot as plt
 
@@ -199,6 +201,31 @@ vis = img.copy()
 for (x,y,w,h) in candidates[:30]:
     cv2.rectangle(vis, (x,y), (x+w, y+h), (0,255,0), 2)
 cv2.imshow("candidates", vis); cv2.waitKey(0); cv2.destroyAllWindows()
+
+
+def read_plate_text(best_box, img):
+    """
+    Takes the best bounding box and image, crops the plate region,
+    applies preprocessing and returns the detected text from the license plate.
+    """
+
+    (x, y, w, h) = best_box
+    cropped_img = img[y:y+h, x:x+w]
+    gray_plate = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2GRAY)
+
+    if gray_plate < 
+    resize_plate = cv2.resize(gray_plate, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+
+    binary_plate = cv2.threshold(gray_plate, 0, 255, cv2.THRESH_BINARY)
+
+    cv2.imshow("resize_plate", resize_plate)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+plate_text = read_plate_text(best_box, img)
+
+
+
 
 
 
